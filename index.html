@@ -70,7 +70,13 @@
             $("#cups").text(apiData.cups);
             var milliseconds = (new Date).getTime();
             var deltaT = (milliseconds/1000 - apiData.brewtime)/60;
-            $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
+            if (deltaT < 60) {
+                $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
+            }
+            else {
+                $("#time").text("Brewed " + (deltaT/60).toFixed(1) + " h ago");
+            }
+            
             if (apiData.brewing == 1) {
                 //change text to brewing...
                 $("#title").text("Brewing more...");
@@ -78,13 +84,11 @@
             else {
                 // normal text
                 $("#title").text("Cups left");
-
             }
         });
     }
     update();
     setInterval(function(){ update(); }, 3000);
-
 </script>
 </body>
 </html>
