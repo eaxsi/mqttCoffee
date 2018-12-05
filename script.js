@@ -37,7 +37,7 @@ client.on('connect', function () {
 
   http.createServer(function (req, res) {
 
-    if (req.url == '/api') {
+    if (req.url == '/api/' || req.url == '/api') {
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(JSON.stringify(coffeeObj));
         res.end();

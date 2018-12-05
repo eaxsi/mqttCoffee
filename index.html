@@ -16,7 +16,7 @@
                 font-size: 6em;
                 color: #EFECE4;
             }
-            #cups {
+            #center {
                 text-align: center;
                 font-size: 15em;
                 color: #EFECE4;
@@ -25,6 +25,9 @@
                 left: 50%;
                 margin-right: -50%;
                 transform: translate(-50%, -50%);
+            }
+            #time {
+                font-size: 0.2em;
             }
             .meter {
                 width: 100%;
@@ -37,19 +40,26 @@
     </head>
 <body>
 
-<h1>Covfefe in the pot</h1>
+<h1>Cups left</h1>
 
-<div id="cups"></div>
-<meter class="meter" low="2" value="0" min="0" max="10"></meter><br>
+<div id="center">
+    <div id="cups"></div>
+    <div id="time">Brewed x min ago</div>
+    
+</div>
+<meter class="meter" low="2" value="0" min="0" max="10"></meter>
 
 
 <script>
     function update(){
-        $.get( "api", function( data ) {
+        $.get( "api/", function( data ) {
             apiData = JSON.parse(data)
             console.log(apiData.cups)
             $(".meter").attr("value", apiData.cups);
             $("#cups").text(apiData.cups);
+            var milliseconds = (new Date).getTime();
+            var deltaT = (milliseconds/1000 - apiData.brewtime)/60;
+            $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
         });
     }
     update();
