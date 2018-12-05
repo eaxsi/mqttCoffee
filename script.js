@@ -27,6 +27,9 @@ client.on('connect', function () {
     if (topic == 'sik/kiltahuone/kahvivaaka/brewtime') {
         coffeeObj.brewtime = message.toString();
     }
+    if (topic == 'sik/kiltahuone/kahvivaaka/brewing') {
+      coffeeObj.brewing = message.toString();
+    }
 
   });
 

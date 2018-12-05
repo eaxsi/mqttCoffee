@@ -11,9 +11,12 @@
                 background-color: #002D3A;
                 }
 
-            h1 {
+            #title {
                 text-align: center;
-                font-size: 6em;
+                font-size: 7em;
+                font-weight: bold;
+                margin-top: 0.67em;
+                margin-bottom: 0.67em;
                 color: #EFECE4;
             }
             #center {
@@ -29,37 +32,54 @@
             #time {
                 font-size: 0.2em;
             }
-            .meter {
+            progress {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
                 width: 100%;
-                height: 5em;
+                height: 3em;
                 align-content: center;
                 position: absolute;
                 bottom: 0;
             }
+            progress::-webkit-progress-bar {
+                background: #000;
+                box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
+                border-radius: 0px;
+            }
+            progress::-webkit-progress-value {
+                background-color: #EFECE4;
+                border-radius: 10px;
+            }
         </style>
     </head>
 <body>
-
-<h1>Cups left</h1>
-
+<div id="title">Cups left</div>
 <div id="center">
     <div id="cups"></div>
     <div id="time">Brewed x min ago</div>
-    
 </div>
-<meter class="meter" low="2" value="0" min="0" max="10"></meter>
-
+<progress id="guage" value="0" max="9"></progress>
 
 <script>
     function update(){
         $.get( "api/", function( data ) {
             apiData = JSON.parse(data)
             console.log(apiData.cups)
-            $(".meter").attr("value", apiData.cups);
+            $("#guage").attr("value", apiData.cups);
             $("#cups").text(apiData.cups);
             var milliseconds = (new Date).getTime();
             var deltaT = (milliseconds/1000 - apiData.brewtime)/60;
             $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
+            if (apiData.brewing == 1) {
+                //change text to brewing...
+                $("#title").text("Brewing more...");
+            }
+            else {
+                // normal text
+                $("#title").text("Cups left");
+
+            }
         });
     }
     update();
