@@ -67,7 +67,7 @@
             apiData = JSON.parse(data)
             console.log(apiData.cups)
             $("#guage").attr("value", apiData.cups);
-            $("#cups").text(apiData.cups);
+            $("#cups").text(parseFloat(apiData.cups).toFixed(1));
             var milliseconds = (new Date).getTime();
             var deltaT = (milliseconds/1000 - apiData.brewtime)/60;
             if (deltaT < 60) {
