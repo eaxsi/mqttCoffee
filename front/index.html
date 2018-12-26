@@ -17,9 +17,8 @@
 <progress id="guage" value="0" max="9"></progress>
 
 <script>
-    const API_URL = "%%API_URL%%/";
     function update(){
-        $.get( API_URL + "api", function( data ) {
+        $.get("/api/", function( data ) {
             const apiData = data;
             console.log(apiData.cups)
             $("#guage").attr("value", apiData.cups);

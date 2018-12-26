@@ -5,14 +5,12 @@ services:
         build:
             context: ./front
             dockerfile: Dockerfile
-            args:
-                apiurl: http://localhost:8889
         ports:
-            - "8888:80"
+            - "8888:8080"
+        depends_on:
+        - back
+
     back:
         build: back
         environment:
             MQTT_HOST: mqtt.sik.party
-        ports:
-            - "8889:8080"
-
