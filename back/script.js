@@ -18,7 +18,6 @@ client.on('connect', function () {
   client.subscribe('sik/kiltahuone/kahvivaaka/#', function (err) {
     if (!err) {
       console.log("Connected to MQTT server!")
-      //client.publish('presence', 'Hello mqtt')
     }
   })
 })
@@ -26,17 +25,22 @@ client.on('connect', function () {
 client.on('message', function (topic, message) {
   // message is Buffer
   if (topic == 'sik/kiltahuone/kahvivaaka/cups') {
-    coffeeObj.cups = message.toString();
+    coffeeObj.cups = message.toString()
   }
   if (topic == 'sik/kiltahuone/kahvivaaka/brewtime') {
-    coffeeObj.brewtime = message.toString();
+    coffeeObj.brewtime = message.toString()
   }
   if (topic == 'sik/kiltahuone/kahvivaaka/brewing') {
-    coffeeObj.brewing = message.toString();
+    coffeeObj.brewing = message.toString()
   }
 
 });
-
+client.on('offline', function(){
+  console.log('No MQTT connection!')
+  coffeeObj.cups = 'MQTT Error'
+  coffeeObj.brewtime = '0'
+  coffeeObj.brewing = '0'
+})
 
 http.createServer(function (req, res) {
 

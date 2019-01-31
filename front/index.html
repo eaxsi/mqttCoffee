@@ -45,12 +45,16 @@
         });
     }
     function formatCups(cups){
-        if(cups == 0){
-            return Math.round(parseFloat(cups))
+        if (isNaN(cups)){
+            return cups
         }
         else {
-            return parseFloat(cups).toFixed(1)
-        }
+            if(cups == 0){
+                return Math.round(parseFloat(cups))
+            }
+            else {
+                return parseFloat(cups).toFixed(1)
+        }}  
     }
     update();
     setInterval(function(){ update(); }, 3000);
