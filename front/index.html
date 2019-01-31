@@ -15,14 +15,14 @@
     <div id="cups"></div>
     <div id="time">Brewed x min ago</div>
 </div>
-<progress id="guage" value="0" max="9"></progress>
+<progress id="gauge" value="0" max="9"></progress>
 
 <script>
     function update(){
         $.get("/api/", function( data ) {
             const apiData = data;
             console.log(apiData.cups)
-            $("#guage").attr("value", apiData.cups);
+            $("#gauge").attr("value", apiData.cups);
             $("#cups").text(formatCups(apiData.cups));
             var milliseconds = (new Date).getTime();
             var deltaT = (milliseconds/1000 - apiData.brewtime)/60;
