@@ -1,0 +1,26 @@
+{
+  "short_name": "Coffee",
+  "name": "SIK coffee monitor",
+  "icons": [
+    {
+      "src": "/images/coffee_low.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/images/coffee_med.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/images/coffee_high.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#002D3A",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#3367D6"
+}
