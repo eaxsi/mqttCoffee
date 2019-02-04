@@ -8,56 +8,61 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
         <link rel="icon" href="images/coffee_low.png">
         <link rel="manifest" href="manifest.json">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     </head>
 <body>
-<div id="title">Cups left</div>
-<div id="center">
-    <div id="cups"></div>
-    <div id="time">Brewed x min ago</div>
+    <div id="box">
+        <div id="title">Cups left</div>
+        <div id="center">
+            <div id="cups"></div>
+            <div id="time">Brewed x min ago</div>
+        </div>
+
+        <script>
+            function update() {
+                $.get("/api/", function (data) {
+                    const apiData = data;
+                    console.log(apiData.cups)
+                    $("#gauge").attr("value", apiData.cups);
+                    $("#cups").text(formatCups(apiData.cups));
+                    var milliseconds = (new Date).getTime();
+                    var deltaT = (milliseconds / 1000 - apiData.brewtime) / 60;
+                    if (deltaT < 60) {
+                        $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
+                    }
+                    else {
+                        $("#time").text("Brewed " + (deltaT / 60).toFixed(1) + " h ago");
+                    }
+
+                    if (apiData.brewing == 1) {
+                        //change text to brewing...
+                        $("#title").text("Brewing more...");
+                        $("#cups").text('+' + parseFloat(apiData.cups).toFixed(1));
+                    }
+                    else {
+                        // normal text
+                        $("#title").text("Cups left");
+                    }
+                });
+            }
+            function formatCups(cups) {
+                if (isNaN(cups)) {
+                    return cups
+                }
+                else {
+                    if (cups == 0) {
+                        return Math.round(parseFloat(cups))
+                    }
+                    else {
+                        return parseFloat(cups).toFixed(1)
+                    }
+                }
+            }
+            update();
+            setInterval(function () { update(); }, 3000);
+        </script>
 </div>
 <progress id="gauge" value="0" max="9"></progress>
 
-<script>
-    function update(){
-        $.get("/api/", function( data ) {
-            const apiData = data;
-            console.log(apiData.cups)
-            $("#gauge").attr("value", apiData.cups);
-            $("#cups").text(formatCups(apiData.cups));
-            var milliseconds = (new Date).getTime();
-            var deltaT = (milliseconds/1000 - apiData.brewtime)/60;
-            if (deltaT < 60) {
-                $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
-            }
-            else {
-                $("#time").text("Brewed " + (deltaT/60).toFixed(1) + " h ago");
-            }
-            
-            if (apiData.brewing == 1) {
-                //change text to brewing...
-                $("#title").text("Brewing more...");
-                $("#cups").text('+' + parseFloat(apiData.cups).toFixed(1));
-            }
-            else {
-                // normal text
-                $("#title").text("Cups left");
-            }
-        });
-    }
-    function formatCups(cups){
-        if (isNaN(cups)){
-            return cups
-        }
-        else {
-            if(cups == 0){
-                return Math.round(parseFloat(cups))
-            }
-            else {
-                return parseFloat(cups).toFixed(1)
-        }}  
-    }
-    update();
-    setInterval(function(){ update(); }, 3000);
-</script>
 </body>
 </html>
