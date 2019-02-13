@@ -24,23 +24,34 @@ client.on('connect', function () {
 
 client.on('message', function (topic, message) {
   // message is Buffer
-  if (topic == 'sik/kiltahuone/kahvivaaka/cups') {
-    coffeeObj.cups = message.toString()
+  if (isNaN(message.toString())) {
+    // message is garbage
+    errorSituation('?')
+    console.log(message.toString())
   }
-  if (topic == 'sik/kiltahuone/kahvivaaka/brewtime') {
-    coffeeObj.brewtime = message.toString()
-  }
-  if (topic == 'sik/kiltahuone/kahvivaaka/brewing') {
-    coffeeObj.brewing = message.toString()
+  else {
+    if (topic == 'sik/kiltahuone/kahvivaaka/cups') {
+      coffeeObj.cups = message.toString()
+    }
+    if (topic == 'sik/kiltahuone/kahvivaaka/brewtime') {
+      coffeeObj.brewtime = message.toString()
+    }
+    if (topic == 'sik/kiltahuone/kahvivaaka/brewing') {
+      coffeeObj.brewing = message.toString()
+    }
   }
 
 });
 client.on('offline', function(){
   console.log('No MQTT connection!')
-  coffeeObj.cups = 'MQTT Error'
+  errorSituation('MQTT error')
+})
+
+function errorSituation(errorName) {
+  coffeeObj.cups = errorName
   coffeeObj.brewtime = '0'
   coffeeObj.brewing = '0'
-})
+}
 
 http.createServer(function (req, res) {
 
