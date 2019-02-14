@@ -27,7 +27,10 @@
                     $("#cups").text(formatCups(apiData.cups));
                     var milliseconds = (new Date).getTime();
                     var deltaT = (milliseconds / 1000 - apiData.brewtime) / 60;
-                    if (deltaT < 60) {
+                    if (apiData.brewtime === "0"){
+                        $("#time").text("418 - I'm a teapot");
+                        }
+                    else if (deltaT < 60) {
                         $("#time").text("Brewed " + Math.round(deltaT) + " min ago");
                     }
                     else {
