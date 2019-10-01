@@ -19,6 +19,7 @@
         </div>
 
         <script>
+            var previous_brewing = 0
             function update() {
                 $.get("/api/", function (data) {
                     const apiData = data;
@@ -46,6 +47,11 @@
                         // normal text
                         $("#title").text("Cups left");
                     }
+                    if(previous_brewing > apiData.brewing)
+                    {
+                        audio.play();
+                    }
+                    previous_brewing = apiData.brewing
                 });
             }
             function formatCups(cups) {
@@ -61,6 +67,8 @@
                     }
                 }
             }
+            var audio = new Audio('sound.mp3');
+
             update();
             setInterval(function () { update(); }, 3000);
         </script>
