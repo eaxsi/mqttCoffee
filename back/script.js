@@ -7,9 +7,14 @@ var fs = require('fs');
 var path = require('path');
 
 var MQTT_HOST = process.env.MQTT_HOST;
-var client  = mqtt.connect('mqtt://' + MQTT_HOST, 
+var MQTT_USER = process.env.MQTT_USER
+var MQTT_PASSWD = process.env.MQTT_PASSWD
+
+var client  = mqtt.connect('mqtt://' + MQTT_HOST,
   {
-    clientId: 'alternativeCoffee' + Math.floor((Math.random()*1000))
+    clientId: 'alternativeCoffee' + Math.floor((Math.random()*1000)),
+    username: MQTT_USER,
+    password: MQTT_PASSWD,
   });
 
 coffeeObj = {};
