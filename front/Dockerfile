@@ -5,3 +5,4 @@ ADD ./index.html ./
 ADD ./style.css ./
 ADD ./manifest.json ./
 ADD ./images ./images
+ADD ./sound.mp3 ./sound.mp3
